@@ -33,3 +33,10 @@ variable "max_size" {
     description = "The maximum number of EC2 Instances in the ASG"
     type = number
 }
+
+# for_eachによるインラインブロックの反復の確認用
+variable "custom_tags" {
+    description = "Custom tags to set on the Instances in the ASG"
+    type = map(string)
+    default = {}
+}
