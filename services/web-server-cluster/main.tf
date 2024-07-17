@@ -160,3 +160,26 @@ resource "aws_security_group_rule" "allow_server_http_inbound" {
     protocol = local.tcp_protocol
     cidr_blocks = local.all_ips # アクセス可能なIPアドレス範囲
 }
+
+# 条件付きリソース（このリソースを作成するかをモジュールの利用者側が決められる）
+resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
+    count = var.enable_autoscaling ? 1 : 0
+
+    scheduled_action_name = "scale-out-during-business-hours"
+    min_size = 2
+    max_size = 10
+    desired_capacity = 10
+    recurrence = "0 9 * * *"
+    autoscaling_group_name = module.webserver_cluster.asg_name
+}
+
+resource "aws_autoscaling_schedule" "scale_in_at_night" {
+    count = var.enable_autoscaling ? 1 : 0
+
+    scheduled_action_name = "scale-in-at-night"
+    min_size = 2
+    max_size = 10
+    desired_capacity = 2
+    recurrence = "0 17 * * *"
+    autoscaling_group_name = module.webserver_cluster.asg_name
+}
