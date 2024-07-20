@@ -113,7 +113,7 @@ resource "aws_launch_configuration" "example" {
 
 resource "aws_autoscaling_group" "example" {
     # 起動設定の変更を反映するため，起動設定の名前に明示的に依存させることで，起動設定の変更に伴いASGも変更されるようにする
-    name = "${var.cluster_name}-${aws_launch_configuration.example.name}"
+    name = var.cluster_name
 
     launch_configuration = aws_launch_configuration.example.name
 
@@ -129,12 +129,12 @@ resource "aws_autoscaling_group" "example" {
     min_size = var.min_size
     max_size = var.max_size
 
-    # ゼロダウンタイムデプロイ実現のために，最低でもこの数のインスタンスがヘルスチェックをパスするのを待つ
-    min_elb_capacity = var.min_size
-
-    # ゼロダウンタイムデプロイ実現のために，先に置き換え先のリソースを作成してから削除する
-    lifecycle {
-        create_before_destroy = true
+    # ASGが更新された時必ずインスタンスのリフレッシュを行う（ネイティブなゼロダウンタイムデプロイ）
+    instance_refresh {
+        strategy = "Rolling"
+        preferences {
+            min_healthy_percentage = 50
+        }
     }
 
     tag {
