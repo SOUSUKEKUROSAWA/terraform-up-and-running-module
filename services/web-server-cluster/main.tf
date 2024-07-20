@@ -130,12 +130,12 @@ resource "aws_autoscaling_group" "example" {
     max_size = var.max_size
 
     # ゼロダウンタイムデプロイ実現のために，最低でもこの数のインスタンスがヘルスチェックをパスするのを待つ
-    min_elb_capacity = var.min_size
+    # min_elb_capacity = var.min_size
 
     # ゼロダウンタイムデプロイ実現のために，先に置き換え先のリソースを作成してから削除する
-    lifecycle {
-        create_before_destroy = true
-    }
+    # lifecycle {
+    #     create_before_destroy = true
+    # }
 
     tag {
         key = "Name"
