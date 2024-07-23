@@ -5,7 +5,7 @@ resource "aws_db_instance" "example" {
     skip_final_snapshot = true
 
     # バックアップを有効化
-    backup_retention_period = var.backup_retenstion_period
+    backup_retention_period = var.backup_retention_period
 
     # 設定されているときはこのデータベースはレプリカ
     replicate_source_db = var.replicate_source_db

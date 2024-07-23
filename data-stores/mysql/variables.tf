@@ -1,4 +1,4 @@
-variable "backup_retenstion_period" {
+variable "backup_retention_period" {
     description = "Days to retain backups. Must be > 0 to enable replication"
     type = number
     default = null
