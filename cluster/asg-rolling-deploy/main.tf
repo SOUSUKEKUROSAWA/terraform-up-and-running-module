@@ -10,6 +10,12 @@ resource "aws_launch_configuration" "example" {
     # ASGからの参照を失わないように変更を適用する
     lifecycle {
         create_before_destroy = true
+
+        # 無料利用枠のインスタンスタイプか最新の情報をデータソースから取得して動的にチェック
+        precondition {
+            condition = data.aws_ec2_instance_type.instance.free_tier_eligible
+            error_message = "${var.instance_type} is not part of the AWS Free Tier!"
+        }
     }
 }
 
@@ -47,6 +53,14 @@ resource "aws_autoscaling_group" "example" {
             key = tag.key
             value = tag.value
             propagate_at_launch = true
+        }
+    }
+
+    lifecycle {
+        # Apply後にASGが2つ以上のAZにデプロイされたことをチェック
+        postcondition {
+            condition = length(self.availability_zones) > 1
+            error_message = "You must use more than one AZ for high availability!"
         }
     }
 }
