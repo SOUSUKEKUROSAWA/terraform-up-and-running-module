@@ -1,5 +1,5 @@
 module "eks_cluster" {
-    source = "github.com/SOUSUKEKUROSAWA/terraform-up-and-running-module//services/eks-cluster?ref=v0.0.15"
+    source = "../../modules/services/eks-cluster"
 
     name = "example-eks-cluster"
     min_size = 1
@@ -12,7 +12,7 @@ module "eks_cluster" {
 }
 
 module "simple_webapp" {
-    source = "github.com/SOUSUKEKUROSAWA/terraform-up-and-running-module//services/kubernetes-app?ref=v0.0.13"
+    source = "../../modules/services/kubernetes-app"
 
     name = "simple-webapp"
     image = "training/webapp"

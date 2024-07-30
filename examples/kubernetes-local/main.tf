@@ -1,5 +1,5 @@
 module "simple_webapp" {
-    source = "github.com/SOUSUKEKUROSAWA/terraform-up-and-running-module//services/kubernetes-app?ref=v0.0.13"
+    source = "../../modules/services/kubernetes-app"
 
     name = "simple-webapp"
     image = "training/webapp"

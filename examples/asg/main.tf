@@ -1,5 +1,5 @@
 module "asg" {
-    source = "github.com/SOUSUKEKUROSAWA/terraform-up-and-running-module//cluster/asg-rolling-deploy?ref=v0.0.18"
+    source = "../../modules/cluster/asg-rolling-deploy"
 
     cluster_name = "webservers-example"
     ami = data.aws_ami.ubuntu.id

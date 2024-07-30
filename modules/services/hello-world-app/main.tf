@@ -1,5 +1,5 @@
 module "asg" {
-    source = "../../cluster/asg-rolling-deploy"
+    source = "../../modules/cluster/asg-rolling-deploy"
 
     cluster_name = "hello-world-${var.environment}"
     ami = var.ami
@@ -24,7 +24,7 @@ module "asg" {
 }
 
 module "alb" {
-    source = "../../networking/alb"
+    source = "../../modules/networking/alb"
 
     alb_name = "hello-world-${var.environment}"
     subnet_ids = data.aws_subnets.default.ids
